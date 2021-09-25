@@ -11,6 +11,7 @@ namespace InsuranceRelevance.Models.ViewModels
     {
         public Contract BankContract { get; set; }
         public List<InsuranceServiceUnit> InsurancesService { get; set; }
+        public string ContractNumber { get; set; }
         public BankContractViewModel()
         {
             InsurancesService = new List<InsuranceServiceUnit>();
@@ -23,7 +24,7 @@ namespace InsuranceRelevance.Models.ViewModels
         public InsuranceServiceUnit(List<LifeCycleInsuranceService> lifeCycleInsuranceServices, InsuranceService insuranceService)
         {
             LifeCycleInsuranceServices = lifeCycleInsuranceServices;
-            InsuranceService = insuranceService;
+            InsuranceService = insuranceService;            
         }
     }
 }

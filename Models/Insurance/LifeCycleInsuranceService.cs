@@ -14,6 +14,10 @@ namespace InsuranceRelevance.Models.Insurance
         public string Subject { get; set; }
         public Guid InsuranceServiceId { get; set; }
         public InsuranceService InsuranceService { get; set; }
+        public LifeCycleInsuranceService()
+        {
+            
+        }
         public LifeCycleInsuranceService(string subject)
         {
             Subject = subject;

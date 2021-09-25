@@ -42,15 +42,27 @@ namespace InsuranceRelevance.Models
                 return await db.QueryFirstOrDefaultAsync<Contract>($"SELECT * FROM [ContractsBanks] WHERE NumberContract = N'{number}'");                
             }
         }
+        public async Task<CompanyInsurance> GetCompanyInsurFromId(int id)
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                return await db.QueryFirstOrDefaultAsync<CompanyInsurance>($"SELECT * FROM [CompanyInsurances] WHERE Id = {id}");
+            }
+        }
         public async Task<BankContractViewModel> GetBankContractsViewModelFromNumber(string number)
         {
             BankContractViewModel viewModel = new BankContractViewModel();
             using IDbConnection db = new SqlConnection(connectionString);
             var contract = await GetBankContractsFromNumber(number);
             viewModel.BankContract = contract;
+            if (contract == null)
+            {
+                return viewModel;
+            }
             var insServices = await GetInsuranceServicesFromContractId(contract.ContarctId);
             foreach (var item in insServices)
             {
+
                 viewModel.InsurancesService.Add(await GetISUnitsFromISId(item.InsuranceServiceId));
             }
             return viewModel;
@@ -67,14 +79,17 @@ namespace InsuranceRelevance.Models
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                return await db.QueryFirstOrDefaultAsync<InsuranceService>($"SELECT * FROM [InsuranceServices] WHERE InsuranceServiceId = CONVERT(uniqueidentifier,'{ISId}')");                
+                var insService = await db.QueryFirstOrDefaultAsync<InsuranceService>($"SELECT * FROM [InsuranceServices] WHERE InsuranceServiceId = CONVERT(uniqueidentifier,'{ISId}')");
+                insService.CompanyInsurance = await GetCompanyInsurFromId(insService.CompanyInsuranceId);
+                return insService;
             }
         }
         public async Task<InsuranceServiceUnit> GetISUnitsFromISId(Guid ISId)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var res = await db.QueryAsync<LifeCycleInsuranceService>($"SELECT * FROM [LifeCyclesIS] WHERE InsuranceServiceId = N'{ISId}'");
+                string strQuery = $"SELECT * FROM [LifeCyclesIS] WHERE InsuranceServiceId = CONVERT(uniqueidentifier,'{ISId}')";
+                var res = await db.QueryAsync<LifeCycleInsuranceService>(strQuery);
                 return new InsuranceServiceUnit(res.ToList(), await GetInsuranceServiceFromId(ISId));                
             }            
         }

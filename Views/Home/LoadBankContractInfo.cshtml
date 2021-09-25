@@ -1,0 +1,62 @@
+﻿@model InsuranceRelevance.Models.ViewModels.BankContractViewModel
+@{ 
+    Layout = null;
+    var startDate = Model.BankContract.StartDate.HasValue ? Model.BankContract.StartDate.Value.ToString("d") : "Дата не определена";
+    var endDate = Model.BankContract.CompleteDate.HasValue ? Model.BankContract.CompleteDate.Value.ToString("d") : "Дата не определена";
+    var planDate = Model.BankContract.CompletePlanDate.HasValue ? Model.BankContract.CompletePlanDate.Value.ToString("d") : "Дата не определена";
+}
+@if (Model == null)
+{
+    <h5>Информации по договору с номером @Model.ContractNumber не найдено</h5>
+}
+<div class="container">
+    <dl class="row">
+        <dt class="col-sm-3">Номер договора</dt>
+        <dd class="col-sm-9">@Model.BankContract.NumberContract</dd>
+
+        <dt class="col-sm-3">Дата начала ипотеки</dt>
+        <dd class="col-sm-9">@startDate</dd>
+
+        <dt class="col-sm-3">Дата завершения</dt>
+        <dd class="col-sm-9">@endDate</dd>
+
+        <dt class="col-sm-3">Планируемая дата завершения</dt>
+        <dd class="col-sm-9">@planDate</dd>
+    </dl>
+    
+    <div class="col-10">
+        @foreach (var item in Model.InsurancesService)
+        {
+            <hr />
+            <div class="text-center">
+                <h6>Номер договора <strong>@item.InsuranceService.ServiceNumber</strong></h6>
+            </div>
+            <dl class="row">
+                
+                <dt class="col-sm-3">Сумма возмещения</dt>
+                <dd class="col-sm-9">@item.InsuranceService.InsuranceSum</dd>
+
+                <dt class="col-sm-3">Страхвая компания</dt>
+                <dd class="col-sm-9">@item.InsuranceService.CompanyInsurance.Name</dd>
+            </dl>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Дата и время события</th>
+                        <th scope="col">Содержание</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var unitLifeCycle in item.LifeCycleInsuranceServices)
+                    {
+                        <tr>
+                            <td>@unitLifeCycle.DateTime.ToString("g")</td>
+                            <td>@unitLifeCycle.Subject</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
