@@ -10,7 +10,9 @@ namespace InsuranceRelevance.Models
     public class UserApplication : IdentityUser
     {
         public TypeUser TypeUser { get; set; }
+        [Display(Name = "БИК")]
         public string BIK { get; set; }
+        [Display(Name = "Номер страховой лицензии")]
         public string LicenseNumber { get; set; }
     }
 

@@ -4,135 +4,22 @@ using InsuranceRelevance.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InsuranceRelevance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210925073833_Users")]
+    partial class Users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Bank.CompanyBank", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CompanyBanks");
-                });
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Bank.Contract", b =>
-                {
-                    b.Property<Guid>("ContarctId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("CompanyBankId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("CompleteDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("CompletePlanDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<decimal?>("ContractAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NumberContract")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("StartDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("ContarctId");
-
-                    b.HasIndex("CompanyBankId");
-
-                    b.ToTable("ContractsBanks");
-                });
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Insurance.CompanyInsurance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CompanyInsurances");
-                });
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Insurance.InsuranceService", b =>
-                {
-                    b.Property<Guid>("InsuranceServiceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("CompanyInsuranceId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ContractId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("InsuranceRate")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("InsuranceSum")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ServiceNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("InsuranceServiceId");
-
-                    b.HasIndex("CompanyInsuranceId");
-
-                    b.ToTable("InsuranceServices");
-                });
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Insurance.LifeCycleInsuranceService", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("DateTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("InsuranceServiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Subject")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InsuranceServiceId");
-
-                    b.ToTable("LifeCyclesIS");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -354,33 +241,6 @@ namespace InsuranceRelevance.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("UserApplication");
-                });
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Bank.Contract", b =>
-                {
-                    b.HasOne("InsuranceRelevance.Models.Bank.CompanyBank", "CompanyBank")
-                        .WithMany()
-                        .HasForeignKey("CompanyBankId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Insurance.InsuranceService", b =>
-                {
-                    b.HasOne("InsuranceRelevance.Models.Insurance.CompanyInsurance", "CompanyInsurance")
-                        .WithMany()
-                        .HasForeignKey("CompanyInsuranceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Insurance.LifeCycleInsuranceService", b =>
-                {
-                    b.HasOne("InsuranceRelevance.Models.Insurance.InsuranceService", "InsuranceService")
-                        .WithMany()
-                        .HasForeignKey("InsuranceServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

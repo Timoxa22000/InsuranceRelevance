@@ -31,10 +31,18 @@ namespace InsuranceRelevance
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<UserApplication>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<UserApplication>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.User.RequireUniqueEmail = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddTransient<IRepository, Repository>(provider => new Repository(Configuration.GetConnectionString("DefaultConnection"), Configuration));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

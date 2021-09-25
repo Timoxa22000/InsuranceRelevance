@@ -1,4 +1,15 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿$(document).ready(function () {
+    $(document).on('change', '#TypeStatus', function () {
+        if ($(this).val() === '0') {
+            $('.InputBIK').show();
+            $('.InputLicenseNumber').hide();
+        } else {
+            $('.InputBIK').hide();
+            $('.InputLicenseNumber').show();
+        }
+    });
+    function regiterFormStart() {
+        $('.InputLicenseNumber').hide();
+    };
+    regiterFormStart();
+});

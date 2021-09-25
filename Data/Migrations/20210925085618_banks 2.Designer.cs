@@ -4,14 +4,16 @@ using InsuranceRelevance.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InsuranceRelevance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210925085618_banks 2")]
+    partial class banks2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,15 +123,10 @@ namespace InsuranceRelevance.Data.Migrations
                     b.Property<DateTimeOffset>("DateTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("InsuranceServiceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Subject")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InsuranceServiceId");
 
                     b.ToTable("LifeCyclesIS");
                 });
@@ -370,15 +367,6 @@ namespace InsuranceRelevance.Data.Migrations
                     b.HasOne("InsuranceRelevance.Models.Insurance.CompanyInsurance", "CompanyInsurance")
                         .WithMany()
                         .HasForeignKey("CompanyInsuranceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InsuranceRelevance.Models.Insurance.LifeCycleInsuranceService", b =>
-                {
-                    b.HasOne("InsuranceRelevance.Models.Insurance.InsuranceService", "InsuranceService")
-                        .WithMany()
-                        .HasForeignKey("InsuranceServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
